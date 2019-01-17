@@ -31,14 +31,6 @@ module.exports = {
 }
 
 
-
-
-
-
-
-
-
-
 mongoose.connection.on('connected', function() {
     console.log('mongo connect success')
 })

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getRedirectPath } from '../util'
 
 // 创建action对象（redux-thunk能让action为函数）交给reducer处理，reducer处理后并且返回新的state
 const ERROR_MSG = 'error_msg'
@@ -10,13 +11,14 @@ const initState = {
     user: '',
     pwd: '',
     type: '',
-    msg: ''
+    msg: '',
+    redirectTo: ''
 }
 // reducer
 export function user(state = initState, action) {
     switch(action.type) {
         case REGISTER_SUCCESS:
-            return {...state, msg: '', isAuth: true, ...action.payload}
+            return {...state, msg: '', isAuth: true, redirectTo: getRedirectPath(action.payload), ...action.payload}
         case ERROR_MSG:
             return {...state, isAuth: false, msg: action.msg}
         default: 
