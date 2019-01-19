@@ -22,11 +22,14 @@ Router.post('/register', function(req, res) {
             return res.json({code: 1, msg: '用户名已存在'})
         }
         // 插入数据库
-        User.create({ user, type, pwd: utils.md5(pwd)}, function(err, doc) {
+        const userModel = new User({user, type, pwd: utils.md5(pwd)}) 
+        userModel.save(function(err, doc) {
             if(err) {
-                return res.json({code: 1, msg: '服务器出错'})
+                return res.json({code: 1, msg: '数据库出错'})
             }
-            return res.json({code: 0})
+            const { user, type, _id } = doc
+            res.cookie('userid', _id)
+            res.json({code: 0, data: {user, type, _id}})
         })
     })
 })
@@ -41,6 +44,8 @@ Router.post('/login', function(req, res) {
             if (pwdServer !== pwdClient) {
                 return res.json({code: 1, msg: '密码错误！'})
             } else {
+                // 登录成功设置cookie
+                res.cookie('userId', doc._id)
                 return res.json({code: 0, data: doc})
             }
 
@@ -50,7 +55,22 @@ Router.post('/login', function(req, res) {
     })
 })
 Router.get('/info', function(req, res) {
-    res.json({code: 0})
+    // 写cookie res.cookie 读cookie req.cookie
+    console.log(req)
+    const { userId } = req.cookies
+    if (!userId) {
+        res.json({code: 1})
+    }
+    // 如果有cookie
+    User.findOne({_id: userId}, function(err, doc) {
+        if(err) {
+            return res.json({code: 1, msg: '数据库出错'})
+        }
+        if (doc) {
+            return res.json({code: 0, data: doc})
+        }
+
+    })
 })
 
 module.exports = Router
