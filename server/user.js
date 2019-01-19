@@ -6,7 +6,7 @@ const User = model.getModel('user')
 const utils = require('utility')
 
 Router.get('/list', function(req, res) {
-    User.remove({}, function(err, doc) {})
+    // User.remove({}, function(err, doc) {})
     User.find({}, function(err, doc){
         if(doc) {
             return res.json(doc)

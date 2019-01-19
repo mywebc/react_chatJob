@@ -10,7 +10,8 @@ import './config'
 
 import Login from './container/login'
 import Register from './container/register'
-import AuthRoute  from "./component/authRoute";
+import AuthRoute  from "./component/authRoute"
+import BossInfo from './container/bossinfo'
 import './index.css'
 
 const store = createStore(reducer, compose(
@@ -24,6 +25,7 @@ ReactDom.render(
             <BrowserRouter>
               <div>
                   <AuthRoute/>
+                  <Route path="/bossinfo" component={BossInfo}></Route>
                   <Route path="/login" component={Login}></Route>
                   <Route path="/register" component={Register}></Route>
                 </div>
