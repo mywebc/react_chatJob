@@ -10,9 +10,10 @@ import './config'
 
 import Login from './container/login'
 import Register from './container/register'
-import AuthRoute  from "./component/authRoute"
+import AuthRoute from "./component/authRoute"
 import BossInfo from './container/bossinfo'
 import GeniusInfo from './container/geniusinfo'
+import DashBorad from './component/dashborad'
 import './index.css'
 
 const store = createStore(reducer, compose(
@@ -24,12 +25,16 @@ ReactDom.render(
     (
         <Provider store={store}>
             <BrowserRouter>
-              <div>
-                  <AuthRoute/>
-                  <Route path="/bossinfo" component={BossInfo}></Route>
-                  <Route path="/geniusinfo" component={GeniusInfo}></Route>
-                  <Route path="/login" component={Login}></Route>
-                  <Route path="/register" component={Register}></Route>
+                <div>
+                    <AuthRoute />
+                    <Switch>
+                        <Route path="/bossinfo" component={BossInfo}></Route>
+                        <Route path="/geniusinfo" component={GeniusInfo}></Route>
+                        <Route path="/login" component={Login}></Route>
+                        <Route path="/register" component={Register}></Route>
+                        {/* 所有没有匹配的进这儿 */}
+                        <Route component={DashBorad}></Route>
+                    </Switch>
                 </div>
             </BrowserRouter>
         </Provider>
