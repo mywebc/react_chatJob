@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {
     Grid,
-    List,
-    Flex
+    List
 } from 'antd-mobile'
+import PropTypes from 'prop-types'
 
 class AvatarSelector extends Component {
     constructor(props) {
@@ -41,5 +41,7 @@ class AvatarSelector extends Component {
         )
     }
 }
-
+AvatarSelector.PropTypes = {
+    selectAvatar: PropTypes.func.isRequired
+}
 export default AvatarSelector
