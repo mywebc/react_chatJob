@@ -6,7 +6,14 @@ import {
     Button
  } from 'antd-mobile'
 import AvatarSelector from '../../component/avatarSelector'
+import { connect } from 'react-redux'
+import { update } from '../../redux/user.redux'
+import { Redirect } from 'react-router-dom'
 
+@connect(
+    state => state.user,
+    { update }
+)
 class BossInfo extends Component {
     constructor(props){
         super(props);
@@ -26,6 +33,7 @@ class BossInfo extends Component {
     render() {
         return (
             <div>
+                {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
                 <NavBar mode="dark">Boss信息</NavBar>
                 <AvatarSelector selectAvatar={(text) => {
                     this.setState({
@@ -36,7 +44,7 @@ class BossInfo extends Component {
                 <InputItem onChange={(v) => {this.handelChange('company', v)}}>公司名称</InputItem>
                 <InputItem onChange={(v) => {this.handelChange('moeny', v)}}>职位薪资</InputItem>
                 <TextareaItem onChange={(v) => {this.handelChange('desc', v)}} title="职位要求" rows={3}></TextareaItem>
-                <Button type="primary">保存</Button>
+                <Button type="primary" onClick={() => this.props.update(this.state)}>保存</Button>
             </div>
         )
     }

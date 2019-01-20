@@ -45,7 +45,7 @@ Router.post('/login', function(req, res) {
                 return res.json({code: 1, msg: '密码错误！'})
             } else {
                 // 登录成功设置cookie
-                res.cookie('userId', doc._id)
+                res.cookie('userid', doc._id)
                 return res.json({code: 0, data: doc})
             }
 
@@ -57,12 +57,12 @@ Router.post('/login', function(req, res) {
 Router.get('/info', function(req, res) {
     // 写cookie res.cookie 读cookie req.cookie
     console.log(req)
-    const { userId } = req.cookies
-    if (!userId) {
+    const { userid } = req.cookies
+    if (!userid) {
         res.json({code: 1})
     }
     // 如果有cookie
-    User.findOne({_id: userId}, function(err, doc) {
+    User.findOne({_id: userid}, function(err, doc) {
         if(err) {
             return res.json({code: 1, msg: '数据库出错'})
         }
@@ -70,6 +70,24 @@ Router.get('/info', function(req, res) {
             return res.json({code: 0, data: doc})
         }
 
+    })
+})
+// Boss 页面保存
+Router.post('/update', function(req, res) {
+    console.log(req)
+    const { userid } = req.cookies
+    if (!userid) {
+        return res.json({code: 1})
+    }
+    // 查找并且更新
+    const body = req.body
+    console.log('body123', body)
+    User.findByIdAndUpdate(userid, body, function(err, doc) {
+        const data = Object.assign({}, {
+            user: doc.user,
+            type: doc.type
+        }, body)
+        return res.json({code: 0, data})
     })
 })
 
