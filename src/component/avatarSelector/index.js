@@ -41,7 +41,7 @@ class AvatarSelector extends Component {
         )
     }
 }
-AvatarSelector.PropTypes = {
+AvatarSelector.propTypes = {
     selectAvatar: PropTypes.func.isRequired
 }
 export default AvatarSelector

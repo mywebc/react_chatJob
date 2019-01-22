@@ -7,9 +7,11 @@ const utils = require('utility')
 
 Router.get('/list', function(req, res) {
     // User.remove({}, function(err, doc) {})
-    User.find({}, function(err, doc){
+    const { type } = req.query
+    console.log(type)
+    User.find({type}, function(err, doc){
         if(doc) {
-            return res.json(doc)
+            return res.json({code: 0, data: doc})
         }
     })
 })
