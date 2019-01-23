@@ -5,6 +5,7 @@ import NavLinkBar from '../navLink'
 import { Switch, Route } from 'react-router-dom'
 import Boss from '../boss'
 import Genius from '../genius'
+import User from '../user'
 // function Boss() {
 //     return <h3>boss首页</h3>
 // }
@@ -14,9 +15,9 @@ import Genius from '../genius'
 function Msg() {
     return <h3>信息中心</h3>
 }
-function User() {
-    return <h3>个人中心</h3>
-}
+// function User() {
+//     return <h3>个人中心</h3>
+// }
 @connect(
     state => state
 )
