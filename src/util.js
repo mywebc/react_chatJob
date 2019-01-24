@@ -1,9 +1,12 @@
-// 根据用户信息返回跳转
-export function getRedirectPath({type, avatar}) {
-    let url = type === 'boss' ? '/boss' : '/genius'
-    // 如果不完善
-    if(!avatar) {
-        return url += 'info'
-    }
-    return url
+
+
+export function getRedirectPath({type, avatar}){
+	// 根据用户信息 返回跳转地址
+	// user.type /boss /genius
+	// user.avatar /bossinfo /geniusinfo 
+	let url = (type==='boss')?'/boss': '/genius'
+	if (!avatar) {
+		url += 'info'
+	}
+	return url
 }
