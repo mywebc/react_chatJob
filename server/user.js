@@ -8,7 +8,6 @@ const utils = require('utility')
 Router.get('/list', function(req, res) {
     // User.remove({}, function(err, doc) {})
     const { type } = req.query
-    console.log(type)
     User.find({type}, function(err, doc){
         if(doc) {
             return res.json({code: 0, data: doc})
@@ -17,7 +16,6 @@ Router.get('/list', function(req, res) {
 })
 // 注册
 Router.post('/register', function(req, res) {
-    console.log(req.body) 
     const { user, pwd, type } = req.body
     User.findOne({user}, function(err, doc) {
         if(doc) {
@@ -58,7 +56,6 @@ Router.post('/login', function(req, res) {
 })
 Router.get('/info', function(req, res) {
     // 写cookie res.cookie 读cookie req.cookie
-    console.log(req)
     const { userid } = req.cookies
     if (!userid) {
         res.json({code: 1})
@@ -76,14 +73,12 @@ Router.get('/info', function(req, res) {
 })
 // Boss 页面保存
 Router.post('/update', function(req, res) {
-    console.log(req)
     const { userid } = req.cookies
     if (!userid) {
         return res.json({code: 1})
     }
     // 查找并且更新
     const body = req.body
-    console.log('body123', body)
     User.findByIdAndUpdate(userid, body, function(err, doc) {
         const data = Object.assign({}, {
             user: doc.user,
