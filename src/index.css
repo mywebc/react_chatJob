@@ -19,3 +19,9 @@
 .page-content{
 	padding:45px 5px;
 }
+.stick-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height:auto;
+}

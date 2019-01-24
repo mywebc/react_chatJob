@@ -11,6 +11,10 @@ const io = require('socket.io')(server)
 
 io.on('connection', function(socket) {
     console.log('connetecd')
+    // 接受前台数据
+    socket.on('sendMsg', function(data) {
+        console.log(data)
+    })
 })
 
 
