@@ -14,6 +14,8 @@ io.on('connection', function(socket) {
     // 接受前台数据
     socket.on('sendMsg', function(data) {
         console.log(data)
+        // 广播
+        io.emit('receiveMsg', data)
     })
 })
 

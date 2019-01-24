@@ -3,7 +3,10 @@ import io from 'socket.io-client'
 import { List, InputItem } from 'antd-mobile'
 
 const socket = io("ws://localhost:9090")
-
+// 监听全局
+socket.on('receiveMsg', function(data) {
+    console.log(data)
+})
 class Chat extends React.Component {
     constructor(props) {
         super(props)
