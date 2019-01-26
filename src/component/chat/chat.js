@@ -1,9 +1,8 @@
 import React from 'react'
 import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux'
 import { getChatId } from '../../util'
-
+import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux'
 
 
 
@@ -13,7 +12,7 @@ import { getChatId } from '../../util'
 // })
 @connect(
     state => state,
-    { getMsgList, sendMsg, recvMsg }
+    { sendMsg }
 )
 class Chat extends React.Component {
     constructor(props) {
@@ -22,11 +21,7 @@ class Chat extends React.Component {
             text: ''
         }
     }
-    componentDidMount() {
-        this.props.getMsgList()
-        // 在redux里面监听
-        this.props.recvMsg()
-    }
+    
     handleSubmit() {
         const from = this.props.user._id
         const to = this.props.match.params.user
