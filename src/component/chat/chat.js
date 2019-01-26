@@ -12,7 +12,7 @@ import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux'
 // })
 @connect(
     state => state,
-    { sendMsg }
+    { sendMsg, getMsgList, recvMsg }
 )
 class Chat extends React.Component {
     constructor(props) {
@@ -21,7 +21,13 @@ class Chat extends React.Component {
             text: ''
         }
     }
-    
+    componentDidMount() {
+        // 解决多次绑定recvMsg导致发送多条重复消息bug
+        if (!this.props.chat.chatmsg.length) {
+            this.props.getMsgList()
+            this.props.recvMsg()
+        }
+    }
     handleSubmit() {
         const from = this.props.user._id
         const to = this.props.match.params.user
@@ -32,7 +38,17 @@ class Chat extends React.Component {
             showEmoji: false
         })
     }
+    // 修复emojy轮播图bug
+    fixCarousel() {
+        setTimeout(function () {
+            window.dispatchEvent(new Event('resize'))
+        }, 0)
+    }
     render() {
+        const emoji = '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐 😷 🤒 🤕 😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 👍 👎 👊 ✊ 🤘 👌 👈 👉 👆 👇 ✋  🖐 🖖 👋  💪 🖕 ✍️  💅 🖖 💄 💋 👄 👅 👂 👃 👁 👀 '
+            .split(' ')
+            .filter(v => v)
+            .map(v => ({ text: v }))
         const Item = List.Item
         const users = this.props.chat.users
         const userid = this.props.match.params.user
@@ -43,7 +59,7 @@ class Chat extends React.Component {
             return null
         }
         return (
-            <div className="chat-page">
+            <div id="chat-page">
                 <NavBar
                     mode='dark'
                     icon={<Icon type='left' />}
@@ -82,9 +98,33 @@ class Chat extends React.Component {
                                     text: v
                                 })
                             }}
-                            extra={<span onClick={() => this.handleSubmit()}>发送</span>}
+                            extra={<div>
+                                <span
+                                    role='img'
+                                    aria-label='face'
+                                    style={{ marginRight: 15 }}
+                                    onClick={() => {
+                                        this.setState({
+                                            showEmoji: !this.state.showEmoji
+                                        })
+                                        this.fixCarousel()
+                                    }}
+                                >😃</span>
+                                <span onClick={() => this.handleSubmit()}>发送</span>
+                            </div>}
                         />
                     </List>
+                    {this.state.showEmoji ? <Grid
+                        data={emoji}
+                        columnNum={9}
+                        carouselMaxRow={4}
+                        isCarousel={true}
+                        onClick={el => {
+                            this.setState({
+                                text: this.state.text + el.text
+                            })
+                        }}
+                    /> : null}
                 </div>
             </div>
         )
